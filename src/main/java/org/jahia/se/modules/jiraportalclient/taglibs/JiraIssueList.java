@@ -110,51 +110,7 @@ public class JiraIssueList {
         return JIRAISSUE_ARRAY_LIST;
     }
 
-    // Method to create a new Jira issue
-    public static String createIssue(String jiraInstance, String projectKey, String summary, String description, String issueType) throws IOException {
-        String jiraUrl = "https://" + jiraInstance + ".atlassian.net/rest/api/2/issue";
-        String encoding = Base64.getEncoder().encodeToString((jiraLogin + ":" + jiraToken).getBytes("UTF-8"));
 
-        JSONObject issueData = new JSONObject();
-        try {
-            issueData.put("fields", new JSONObject()
-                    .put("project", new JSONObject().put("key", projectKey))
-                    .put("summary", summary)
-                    .put("description", description)
-                    .put("issuetype", new JSONObject().put("name", issueType))
-            );
-        } catch (JSONException e) {
-            logger.error("Error creating JSON for new issue", e);
-            return null;
-        }
-
-        URL url = new URL(jiraUrl);
-        HttpURLConnection http = (HttpURLConnection) url.openConnection();
-        http.setRequestMethod("POST");
-        http.setRequestProperty("Content-Type", "application/json");
-        http.setRequestProperty("Authorization", "Basic " + encoding);
-        http.setDoOutput(true);
-
-        try (OutputStream os = http.getOutputStream()) {
-            byte[] input = issueData.toString().getBytes("utf-8");
-            os.write(input, 0, input.length);
-        }
-
-        int responseCode = http.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_CREATED) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(http.getInputStream()));
-            String responseLine;
-            StringBuilder response = new StringBuilder();
-            while ((responseLine = in.readLine()) != null) {
-                response.append(responseLine);
-            }
-            in.close();
-            return response.toString();
-        } else {
-            logger.error("Failed to create issue: HTTP error code : " + responseCode);
-            return null;
-        }
-    }
     public static List<JiraIssue> getJiraTickets(String jiraInstance, String jiraProject, RenderContext renderContext) throws IOException, JSONException, RepositoryException, InterruptedException, ExecutionException {
 
         //      RenderContext renderContext = (RenderContext) pageContext.getAttribute("renderContext", PageContext.REQUEST_SCOPE);
@@ -586,7 +542,6 @@ public class JiraIssueList {
         // Add more cases for other fields as needed.
         return "="; // Default to '=' for standard fields
     }
-
 
     // Helper method to convert InputStream to String
     private static String convertStreamToString(InputStream is) throws IOException {

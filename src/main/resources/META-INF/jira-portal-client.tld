@@ -77,7 +77,8 @@
         <name>getIssuesByCustomField</name>
         <function-class>org.jahia.se.modules.jiraportalclient.taglibs.JiraIssueList</function-class>
         <function-signature>
-           java.util.List getIssuesByCustomField(java.lang.String, java.lang.String, org.jahia.services.render.RenderContext)
+            java.util.List getIssuesByCustomField(java.lang.String, java.lang.String, org.jahia.services.render.RenderContext)
+          
         </function-signature>
     </function>
 </taglib>
