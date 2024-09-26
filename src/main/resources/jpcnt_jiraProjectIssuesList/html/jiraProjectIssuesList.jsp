@@ -69,7 +69,7 @@
             <c:forEach items="${jiraIssueList}" var="jiraIssue" varStatus="status">
                 <c:set var="statusList" value="${jira:getAvailableTransitions(jiraInstance, jiraIssue.getKey())}"/>
                 <c:set var="activityList" value="${jira:getIssueActivities(jiraInstance, jiraIssue.getKey())}"/>
-
+                <c:set var="activityListFormatted" value=""/>
                 <c:if test="${not empty activityList}">
                     <c:set var="activityListFormatted" value="<strong>Activities: </strong><br/>"/>
 
